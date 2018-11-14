@@ -1,0 +1,5 @@
+package: binstream.io/lsa
+import:
+- package: github.com/3d0c/gmf
+- package: github.com/gizak/termui
+  version: v2.3.0

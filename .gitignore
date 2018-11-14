@@ -1,0 +1,5 @@
+vendor
+ffmpeg
+*.py*
+glide.lock
+release
