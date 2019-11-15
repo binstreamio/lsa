@@ -3,3 +3,4 @@ ffmpeg
 *.py*
 glide.lock
 release
+go.sum

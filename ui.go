@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	ui "github.com/gizak/termui"
+	ui "gopkg.in/gizak/termui.v2"
 )
 
 const (
