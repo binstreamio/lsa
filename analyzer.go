@@ -113,6 +113,9 @@ func demuxing(source string, streamInfoChan chan *streamInfo) {
 	var (
 		pkt       *gmf.Packet
 		streamIdx int
+
+		lastKeyFrameTS   = time.Now()
+		lastReceivedSize uint64
 	)
 
 	for {
@@ -142,9 +145,14 @@ func demuxing(source string, streamInfoChan chan *streamInfo) {
 				if frames[i].KeyFrame() == 1 {
 					sInfo.VideoKeyFrames++
 
-					appendLog(sInfo, fmt.Sprintf("%s -- key frame: %f",
+					bitrate := float64(sInfo.ReceivedSize-lastReceivedSize) * 8 / 1024 / (time.Now().Sub(lastKeyFrameTS).Seconds())
+					lastReceivedSize = sInfo.ReceivedSize
+					lastKeyFrameTS = time.Now()
+
+					appendLog(sInfo, fmt.Sprintf("%s -- key frame: %.2f   bitrate: %.0f Kbps",
 						time.Now().Format(time.Stamp),
-						float32(frames[i].PktPts())*float32(ist.TimeBase().AVR().Av2qd())))
+						float32(frames[i].PktPts())*float32(ist.TimeBase().AVR().Av2qd()), bitrate),
+					)
 				}
 			}
 
